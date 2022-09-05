@@ -38,7 +38,7 @@ export const Passengers = ({ state, send }) => {
             />
             <div className='passengers-buttons'>
                 <button
-                    className='passengers-add button-secondary'
+                    className='button'
                     type="submit"
                 >
                     Agregar Pasajero

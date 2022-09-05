@@ -10,7 +10,7 @@ export const Welcome = ({ send }) => {
         <div className='welcome'>
             <p className='welcome-title title'>Welcome </p>
             <p className='welcome-description description'> Buy a flight</p>
-            <button onClick={startBooking} className='welcome-cancel button'>Start</button>
+            <button onClick={startBooking} className='button'>Start</button>
         </div>
     )
 }

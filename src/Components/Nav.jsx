@@ -11,7 +11,7 @@ export const Nav = ({ state, send }) => {
         <nav className='Nav'>
             <h1 className='Nav-logo'>Book a fly ✈</h1>
             {!state.matches('initial') && !state.matches('tickets') &&
-                <button onClick={goToWelcome} className='Nav-cancel button-secondary'>Cancel</button>
+                <button onClick={goToWelcome} className='button is-secondary'>Cancel</button>
             }
         </nav>
     );
