@@ -1,10 +1,10 @@
-  import './App.css'
-import { BaseLayout } from './Component/BaseLayout'
+import './App.css'
+import { BaseLayout } from './Containers/BaseLayout'
 
 function App() {
   return (
     <div className="App">
-      <BaseLayout/>
+      <BaseLayout />
     </div>
   )
 }
