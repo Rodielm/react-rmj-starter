@@ -1,5 +1,4 @@
 import React from 'react';
-import './Tickets.css';
 
 export const Tickets = ({ state, send }) => {
   const finish = () => {
@@ -9,16 +8,17 @@ export const Tickets = ({ state, send }) => {
   const { selectedCountry, passengers } = state.context;
 
   return (
-    <div className='Tickets'>
-      <p className='Tickets-description description'>Gracias por volar con book a fly 💚</p>
-      <div className='Tickets-ticket'>
-        <div className='Tickets-country'>{selectedCountry}</div>
-        <div className='Tickets-passengers'>
+    <>
+      <p>Gracias por volar con book a fly 💚</p>
+      <div className='is-flex has-justify-center has-text-center'>
+        <div className='has-m-2 has-p-4 is-rounded' style={{ backgroundColor: "rgb(163, 190, 140)" }}>{selectedCountry}</div>
+        <div className='has-m-6 has-p-2 is-rounded' style={{ backgroundColor: "rgb(216, 222, 233)" }}>
           <span>✈</span>
           {passengers.map((person, idx) => <p key={idx}>{person}</p>)}
         </div>
       </div>
-      <button onClick={finish} className='Tickets-finalizar button'>Finalizar</button>
-    </div>
+
+      <button onClick={finish} className='button is-success'>Finalizar</button>
+    </>
   );
 }; 

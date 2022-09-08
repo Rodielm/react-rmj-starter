@@ -12,7 +12,7 @@ export const BaseLayout = () => {
     console.log('Our machine', state.value, state.context);
 
     return (
-        <div className='card has-ml-auto has-mr-auto has-w-96 is-shadowed has-text-center'>
+        <div className='card has-ml-auto has-mr-auto has-w-96 is-shadowed has-text-center is-shadowed'>
             <Nav state={state} send={send} />
             <StepsLayout state={state} send={send} />
         </div>

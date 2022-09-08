@@ -1,5 +1,5 @@
 import React from 'react';
-import './Nav.css';
+// import './Nav.css';
 
 export const Nav = ({ state, send }) => {
 
@@ -8,11 +8,14 @@ export const Nav = ({ state, send }) => {
     }
 
     return (
-        <nav className='Nav'>
-            <h1 className='Nav-logo'>Book a fly ✈</h1>
-            {!state.matches('initial') && !state.matches('tickets') &&
-                <button onClick={goToWelcome} className='button is-secondary'>Cancel</button>
-            }
-        </nav>
+        <>
+            <div className='is-flex has-direction-row has-justify-around'>
+                <div className='title is-2'>Book a fly ✈</div>
+                {!state.matches('initial') && !state.matches('tickets') &&
+                    <button onClick={goToWelcome} className='button is-danger'>Cancel</button>
+                }
+            </div>
+            <div className='divider'></div>
+        </>
     );
 }; 
