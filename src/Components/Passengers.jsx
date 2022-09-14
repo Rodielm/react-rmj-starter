@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import './Passengers.css';
 
 export const Passengers = ({ state, send }) => {
     const [value, changeValue] = useState('');
@@ -37,15 +36,15 @@ export const Passengers = ({ state, send }) => {
                 value={value}
                 onChange={onChangeInput}
             />
-            <div className='is-flex has-justify-start has-text-center'>
+            <div className='is-flex has-justify-between has-pt-2'>
                 <button
-                    className='button is-primary has-m-2 has-p-4'
+                    className='button is-primary has-pt-1 has-pb-1 has-pl-3 has-pr-3'
                     type="submit"
                 >
                     Agregar Pasajero
                 </button>
                 <button
-                    className='button is-primary has-m-2 has-p-4'
+                    className='button is-primary has-pt-1 has-pb-1 has-pl-3 has-pr-3'
                     type="button"
                     onClick={goToTicket}
                 >
