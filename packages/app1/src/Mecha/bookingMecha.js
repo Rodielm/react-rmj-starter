@@ -90,12 +90,12 @@ const bookingMecha = createMachine({
       },
     },
     tickets: {
-      after: {
-        5000: {
-          target: 'initial',
-          actions: 'clearData'
-        }
-      },
+      // after: {
+      //   5000: {
+      //     target: 'initial',
+      //     actions: 'clearData'
+      //   }
+      // },
       on: {
         FINISH: "initial",
       },
