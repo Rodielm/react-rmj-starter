@@ -1,8 +1,15 @@
 import { Form, useLoaderData, useFetcher } from "react-router-dom";
 import { getContact, updateContact } from "../contacts";
 
+// load before render the component
 export async function loader({ params }) {
   const contact = await getContact(params.contactId)
+  if (!contact) {
+    throw new Response("", {
+      status: 404,
+      statusText: "Not Found",
+    });
+  }
   return { contact };
 }
 
@@ -85,9 +92,11 @@ export default function Contact() {
 }
 
 function Favorite({ contact }) {
-  // yes, this is a `let` for later
+  // useFetcher, 
+  // It allows us to communicate with 
+  // loaders and actions without causing a navigation.
   const fetcher = useFetcher();
-  let favorite = contact.favorite;
+  let favorite = contact?.favorite;
 
   if (fetcher.formData) {
     favorite = fetcher.formData.get("favorite") === "true";
