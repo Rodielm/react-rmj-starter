@@ -49,12 +49,7 @@ export default function Root() {
                             type="search"
                             name="q"
                             defaultValue={q}
-                            onChange={e => {
-                                const isFirstSearch = q == null;
-                                submit(e.currentTarget.form, {
-                                    replace: !isFirstSearch,
-                                });
-                            }}
+                            onChange={e => onSearchContact()}
                         />
                         <div id="search-spinner" aria-hidden hidden={!searching} />
                         <div className="sr-only" aria-live="polite"></div>
@@ -68,15 +63,6 @@ export default function Root() {
                         <ul>
                             {contacts.map((contact) => (
                                 <li key={contact.id}>
-                                    {/* <Link to={`contacts/${contact.id}`}>
-                                        {contact.first || contact.last ? (
-                                            <>
-                                                {contact.first} {contact.last}
-                                            </>
-                                        ) : (
-                                            <i>No Name</i>
-                                        )}{" "}
-                                    </Link> */}
                                     <NavLink
                                         to={`contacts/${contact.id}`}
                                         className={({ isActive, isPending }) =>
@@ -110,4 +96,11 @@ export default function Root() {
             </div>
         </>
     )
+}
+
+function onSearchContact() {
+    const isFirstSearch = q == null;
+    submit(e.currentTarget.form, {
+        replace: !isFirstSearch,
+    });
 }

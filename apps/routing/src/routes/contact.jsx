@@ -55,17 +55,12 @@ export default function Contact() {
 
         {contact.twitter && (
           <p>
-            <a
-              target="_blank"
-              href={`https://twitter.com/${contact.twitter}`}
-            >
+            <a target="_blank" href={`https://twitter.com/${contact.twitter}`}>
               {contact.twitter}
             </a>
           </p>
         )}
-
         {contact.notes && <p>{contact.notes}</p>}
-
         <div>
           <Form action="edit">
             <button type="submit">Edit</button>
@@ -73,16 +68,7 @@ export default function Contact() {
           <Form
             method="post"
             action="destroy"
-            onSubmit={(event) => {
-              if (
-                !confirm(
-                  "Please confirm you want to delete this record."
-                )
-              ) {
-                event.preventDefault();
-              }
-            }}
-          >
+            onSubmit={(e) => onRemoveContact(e)}>
             <button type="submit">Delete</button>
           </Form>
         </div>
@@ -117,4 +103,12 @@ function Favorite({ contact }) {
       </button>
     </fetcher.Form>
   );
+}
+
+function onRemoveContact(e) {
+
+  if (!confirm("Please confirm you want to delete this record.")) {
+    e.preventDefault();
+  }
+
 }
