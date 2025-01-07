@@ -38,7 +38,6 @@ export const useFetch = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
   const fetchData = useCallback(async (url, options = {}) => {
     try {
       setLoading(true);

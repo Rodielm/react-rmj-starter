@@ -4,6 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Search } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 // TODO
 // search images
@@ -14,14 +23,14 @@ const GalleryApp = () => {
   const key_pexel = import.meta.env.VITE_API_PEXEL;
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [data, setData] = useState({});
   const { fetchData, loading, error } = useFetch();
-  const [ photos, setPhotos ] = useState([]);
-
   const baseUrl = "https://api.pexels.com/v1/";
   const fullUrl = `${baseUrl}${
     searchQuery ? `search?query=${encodeURIComponent(searchQuery)}` : "curated"
   }`;
-  let filter = "";
+  const numbers = Array.from({ length: 10 }, (_, index) => index + 1);
+  const [dataPagination, setDataPagination] = useState();
 
   // const { data, loading, error } = useFetchBasic(
   //   fullUrl,
@@ -34,28 +43,42 @@ const GalleryApp = () => {
   // );
 
   useEffect(() => {
-    searchPhotos("");
-    console.log("runs once");
+    searchPhotos("", fullUrl);
+    const { page, per_page, total_results, next_page } = data;
+    setDataPagination({ page, per_page, total_results, next_page });
+    console.log("run only once");
   }, []);
 
-  const searchPhotos = async (query) => {
+  const searchPhotos = async (query, fullUrl, page = false) => {
     const options = {
       headers: {
         Authorization: key_pexel,
       },
     };
-
     const result = await fetchData(fullUrl, options);
     if (result?.photos) {
-      setPhotos(result.photos);
+      setData(result);
     }
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      searchPhotos(searchQuery);
+      searchPhotos(searchQuery, fullUrl);
+      const { page, per_page, total_results, next_page } = data;
+      setDataPagination({ page: 1, per_page, total_results, next_page });
     }
+  };
+
+  const nextPage = (page) => {
+    let urlPage = "";
+    if (searchQuery) {
+      urlPage = `https://api.pexels.com/v1/search/?page=${page}\u0026per_page=15\u0026query=%22${searchQuery}%22`;
+    } else {
+      urlPage = `https://api.pexels.com/v1/curated/?page=${page}&per_page=15`;
+    }
+    searchPhotos("", urlPage);
+    setDataPagination((prevData) => ({ ...prevData, page: page }));
   };
 
   return (
@@ -86,8 +109,8 @@ const GalleryApp = () => {
           Array.from({ length: 8 }).map((_, index) => (
             <Skeleton key={index} className="h-48 rounded-lg" />
           ))
-        ) : photos?.length > 0 ? (
-          photos.map((image) => (
+        ) : data && data?.photos ? (
+          data.photos.map((image) => (
             <div
               key={image.id}
               className="rounded-lg overflow-hidden shadow-md bg-white border border-gray-200"
@@ -106,6 +129,42 @@ const GalleryApp = () => {
           ))
         ) : (
           <p className="text-center col-span-full">No images found.</p>
+        )}
+      </div>
+      <div className="mt-3">
+        <Pagination>
+          <PaginationContent>
+            {dataPagination?.page > 1 && (
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => nextPage(dataPagination?.page - 1)}
+                />
+              </PaginationItem>
+            )}
+            {numbers.map((number) => (
+              <PaginationItem>
+                <PaginationLink
+                  isActive={number === dataPagination?.page}
+                  onClick={() => nextPage(number)}
+                >
+                  {number}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => nextPage(dataPagination?.page + 1)}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+        {data.photos?.length > 0 && (
+          <div className="mt-4 text-center text-gray-500">
+            Showing {data.photos?.length} of {dataPagination?.total_results} results
+          </div>
         )}
       </div>
     </div>
