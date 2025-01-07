@@ -7,12 +7,12 @@ import TodoApp3 from "./apps/TodoApp3";
 import GalleryApp from "./apps/GalleryApp";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  <>
     {/* Todo Basic */}
     {/* <TodoApp /> */}
     {/* Todo useEffect and LocalStorage */}
     {/* <TodoApp3 /> */}
     {/* Todo useLocalStorage */}
     <GalleryApp />
-  </StrictMode>
+  </>
 );
