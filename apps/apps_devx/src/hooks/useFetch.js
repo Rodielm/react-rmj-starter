@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-export const useFetch = (url, options = {}, dependencies = []) => {
+// Approach #1 with Effect
+export const useFetchEffect = (url, options = {}, dependencies = []) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,4 +31,55 @@ export const useFetch = (url, options = {}, dependencies = []) => {
   }, [url, ...dependencies]);
 
   return { data, loading, error };
+};
+
+// Approach #2
+export const useFetch = () => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = useCallback(async (url, options = {}) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch(url, {
+        method: options.method || "GET",
+        headers: {
+          "Content-Type": "application/json",
+          ...options.headers,
+        },
+        body: options.body ? JSON.stringify(options.body) : null,
+        ...options,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      setData(result);
+      return result;
+    } catch (err) {
+      setError(err.message || "Something went wrong");
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const reset = useCallback(() => {
+    setData(null);
+    setError(null);
+    setLoading(null);
+  }, []);
+
+  return {
+    data,
+    error,
+    loading,
+    fetchData,
+    reset,
+  };
 };
